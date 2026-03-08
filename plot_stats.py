@@ -7,16 +7,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 def plot_and_summarize(csv_path, out_dir):
-    """
-    Reads the stats CSV, calculates summary statistics, and generates plots.
-    """
-    # Load data
+
     df = pd.read_csv(csv_path)
     
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
         
-    # 1. Calculate and print summary statistics
     metrics = ['gc_content', 'read_length', 'mean_quality']
     
     summary_file = os.path.join(out_dir, "summary_statistics.txt")
@@ -40,7 +36,6 @@ def plot_and_summarize(csv_path, out_dir):
             print(stats_str)
             f.write(stats_str)
             
-    # 2. Generate plots
     sns.set_theme(style="whitegrid")
     
     # GC Content distribution
