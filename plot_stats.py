@@ -52,23 +52,22 @@ def plot_and_summarize(csv_path, out_dir):
     plt.savefig(os.path.join(out_dir, 'gc_content_dist.png'), dpi=300, bbox_inches='tight')
     plt.close()
     
-    # Read Length distribution (All Reads)
-    plt.figure(figsize=(10, 6))
-    sns.histplot(df['read_length'], bins=50, kde=True, color='lightgreen')
-    plt.title('Read Length Distribution (All Reads)')
-    plt.xlabel('Read Length (bp)')
-    plt.ylabel('Frequency')
-    plt.savefig(os.path.join(out_dir, 'read_length_dist_all.png'), dpi=300, bbox_inches='tight')
-    plt.close()
-    
-    # Read Length distribution (99th Percentile - Zoomed)
-    plt.figure(figsize=(10, 6))
+    # Read Length distribution (Subplots for 99th percentile and Ultra-Long)
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
+
+    # Left: Short reads (99%)
     x_max = df['read_length'].quantile(0.99)
-    sns.histplot(df[df['read_length'] <= x_max]['read_length'], bins=50, kde=True, color='lightgreen')
-    plt.title('Read Length Distribution (99th Percentile)')
-    plt.xlabel('Read Length (bp)')
-    plt.ylabel('Frequency')
-    plt.savefig(os.path.join(out_dir, 'read_length_dist_99p.png'), dpi=300, bbox_inches='tight')
+    sns.histplot(df[df['read_length'] <= x_max]['read_length'], bins=50, ax=ax1, color='lightgreen')
+    ax1.set_title('Bulk of Reads (99th Percentile)')
+    ax1.set_xlabel('Read Length (bp)')
+
+    # Right: Ultra-long reads (>99%)
+    sns.histplot(df[df['read_length'] > x_max]['read_length'], bins=50, ax=ax2, color='salmon')
+    ax2.set_title('Ultra-Long Reads (>99th Percentile)')
+    ax2.set_xlabel('Read Length (bp)')
+
+    plt.tight_layout()
+    plt.savefig(os.path.join(out_dir, 'read_length_dist.png'), dpi=300, bbox_inches='tight')
     plt.close()
     
     # Mean Quality Distribution
