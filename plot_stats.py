@@ -58,7 +58,7 @@ def plot_and_summarize(csv_path, out_dir):
     plt.title('Read Length Distribution')
     plt.xlabel('Read Length (bp)')
     plt.ylabel('Frequency')
-    plt.yscale('log') # often useful for long reads
+    # plt.yscale('log') # often useful for long reads
     plt.savefig(os.path.join(out_dir, 'read_length_dist.png'), dpi=300, bbox_inches='tight')
     plt.close()
     
