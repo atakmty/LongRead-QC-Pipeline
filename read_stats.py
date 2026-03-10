@@ -21,7 +21,7 @@ def calculate_stats(fastq_path, output_csv):
 
             length = len(record.seq)
             
-            gc = sum(1 for x in record.seq if x in 'GCgc')
+            gc = sum(1 for x in record.seq.upper() if x in 'GC')
             gc_content = (gc / length) * 100 if length > 0 else 0
             
             qualities = record.letter_annotations["phred_quality"]
